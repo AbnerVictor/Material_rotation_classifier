@@ -11,8 +11,8 @@ import numpy as np
 from my_data import *
 from my_clf_model import *
 
-train_dataset = './dataset/train_set_1'
-test_dataset = './dataset/test_set_1'
+train_dataset = './dataset/train_set_2'
+test_dataset = './dataset/test_set_2'
 
 
 def imshow(img, title):
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     # 归一化参数
     transform = transforms.Compose([transforms.ToTensor(),
                                     transforms.Normalize(mean=0.5, std=0.5),
-                                    transforms.Resize(size=(100, 100))])
+                                    transforms.Resize(size=(200, 200))])
     my_batch_size = 5
 
     train_set = rotation_dataset(train_dataset, transform=transform)
@@ -54,13 +54,13 @@ if __name__ == '__main__':
 
     # 损失函数和优化器
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(net.parameters(), lr=0.0001)
+    optimizer = optim.Adam(net.parameters(), lr=0.001)
 
     # 初始化权重
     net.apply(weight_reset)
     net.train()  # 启用dropout
 
-    for epoch in range(50):
+    for epoch in range(10):
         running_loss = 0.0
         running_acc = 0.0
         for i, data in enumerate(train_loader, 0):
@@ -127,4 +127,4 @@ if __name__ == '__main__':
         accuracy = sum(pred_y == target_y) / len(target_y)
         test_acc += accuracy
 
-    print(f'average accuracy on test set: {test_acc/(len(test_set)/5)}')
+    print(f'average accuracy on test set {len(test_set)} images: {test_acc/(len(test_set)/5)}')

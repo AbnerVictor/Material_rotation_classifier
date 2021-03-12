@@ -57,7 +57,10 @@ class rotation_dataset(torch.utils.data.Dataset):
         self.data, self.label = data_loader(path)
 
     def __getitem__(self, index):
-        data = self.transform(self.data[index])
+        img = self.data[index]
+        img = cv2.resize(img, (200, 200))
+        img = cv2.Canny(img, threshold1=80, threshold2=150)
+        data = self.transform(img)
         return data, self.label[index]
 
     def __len__(self):
